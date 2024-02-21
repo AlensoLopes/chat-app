@@ -3,7 +3,7 @@ import MessageComponents from '@/components/MessageComponents.vue';
 import { ref } from "vue";
 const message = ref('');
 const messageList = ref([]);
-const messageInput = ref(null)
+const messageInput = ref(null);
 
 const addMessage = () => {
   if(message.value === '') 
@@ -29,6 +29,7 @@ const deleteMessage = (id) => messageList.value = messageList.value.filter(messa
 </script>
 
 <template>
+  
   <div class='flex flex-col w-full justify-center'>
     <div v-for="(message, index) in messageList" :key="index" class="border rounded-md p-2 m-2 bg-gray-800 flex flex-col-reverse">
       <MessageComponents @delete="deleteMessage" :message="message" />
@@ -36,7 +37,7 @@ const deleteMessage = (id) => messageList.value = messageList.value.filter(messa
     <div class='flex flex-row w-full justify-center p-2 fixed bottom-4'>
       <textarea ref="messageInput"
       @keyup.enter.exact="addMessage"
-      v-model="message" name='message' id='message' rows='1' class="text-black rounded-md w-full"></textarea>
+      v-model="message" name='message' id='message' rows='1' class="text-black rounded-md"></textarea>
       <button @delete="deleteMessage" @click="addMessage" class="ml-2 p-4 rounded-md bg-blue-600">Send</button>
     </div>
   </div>

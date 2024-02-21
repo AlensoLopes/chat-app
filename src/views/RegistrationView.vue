@@ -12,7 +12,7 @@ const { push: routerPush } = useRouter();
 const onSubmit = async () => {
   if(!email.value || !username.value || !password.value)
     return;
-  const [ error ] = await supabase.auth.signUp({
+  const { error } = await supabase.auth.signUp({
     email: email.value,
     password: password.value,
     options: {
