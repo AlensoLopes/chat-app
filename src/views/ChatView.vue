@@ -1,38 +1,28 @@
 <script setup>
 import MessageComponents from '@/components/MessageComponents.vue';
 import NavbarComponents from '@/components/NavbarComponents.vue';
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
+import { insertMessage, fetchMessage } from '@/api/messages';
 
 const message = ref('');
 const messageList = ref([]);
 const messageInput = ref(null);
 
+onMounted(async () => messageList.value = await fetchMessage());
+
 const { user } = storeToRefs(useUserStore());
 
-const addMessage = () => {
+const addMessage = async () => {
   if(message.value === '') 
     return;
-  messageList.value.push({
-    id: Math.random().toString(32).slice(2),
-    message: message.value,
-    date: new Date(),
-    // user: {
-    //   name: 'Jean-Luc Lambert',
-    //   avatarUrl: 
-    //   'https://media.licdn.com/dms/image/C4D03AQE30YtF8pwv-Q/profile-displayphoto-shrink_800_800/0/1605694187785?e=2147483647&v=beta&t=MRnxl_KBJ17-TcmyfPmWRNIecBPXQkl9KHB9h_goHOs'
-    // }
-    user: {
-      name: user.username,
-      avatarUrl: user.avatarUrl
-    }
-  });
-  message.value = '';
-  console.log(messageList.value);
 
+  await insertMessage(message.value, user.value.id);
+  message.value = '';
   messageInput.value.focus()
 };
+
 
 const deleteMessage = (id) => messageList.value = messageList.value.filter(message => message.id !== id)
 
