@@ -1,9 +1,15 @@
 <script setup>
 import MessageComponents from '@/components/MessageComponents.vue';
+import NavbarComponents from '@/components/NavbarComponents.vue';
 import { ref } from "vue";
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
+
 const message = ref('');
 const messageList = ref([]);
 const messageInput = ref(null);
+
+const { user } = storeToRefs(useUserStore());
 
 const addMessage = () => {
   if(message.value === '') 
@@ -12,10 +18,14 @@ const addMessage = () => {
     id: Math.random().toString(32).slice(2),
     message: message.value,
     date: new Date(),
+    // user: {
+    //   name: 'Jean-Luc Lambert',
+    //   avatarUrl: 
+    //   'https://media.licdn.com/dms/image/C4D03AQE30YtF8pwv-Q/profile-displayphoto-shrink_800_800/0/1605694187785?e=2147483647&v=beta&t=MRnxl_KBJ17-TcmyfPmWRNIecBPXQkl9KHB9h_goHOs'
+    // }
     user: {
-      name: 'Jean-Luc Lambert',
-      avatarUrl: 
-      'https://media.licdn.com/dms/image/C4D03AQE30YtF8pwv-Q/profile-displayphoto-shrink_800_800/0/1605694187785?e=2147483647&v=beta&t=MRnxl_KBJ17-TcmyfPmWRNIecBPXQkl9KHB9h_goHOs'
+      name: user.username,
+      avatarUrl: user.avatarUrl
     }
   });
   message.value = '';
@@ -29,7 +39,7 @@ const deleteMessage = (id) => messageList.value = messageList.value.filter(messa
 </script>
 
 <template>
-  
+  <NavbarComponents/>
   <div class='flex flex-col w-full justify-center'>
     <div v-for="(message, index) in messageList" :key="index" class="border rounded-md p-2 m-2 bg-gray-800 flex flex-col-reverse">
       <MessageComponents @delete="deleteMessage" :message="message" />

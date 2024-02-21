@@ -24,17 +24,19 @@ const router = createRouter({
       component: () => import('@/views/LoginView.vue')
     }
   ]
-})
+});
 
 router.beforeEach( async (to, from, next) => {
   const { data } = await supabase.auth.getSession();
   const isLoggedIn = !!data.session;
-  if (to.matched.some(record => record.meta.requiresAuth) && !isLoggedIn) {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  if (requiresAuth && !isLoggedIn) {
     next({ name: 'login' });
+  } else if(!requiresAuth && isLoggedIn){
+    next({ name: 'home' });
   } else {
     next();
   }
-
-})
+});
 
 export default router
