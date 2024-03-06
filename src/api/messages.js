@@ -35,3 +35,7 @@ export const subscribeToMessages = () => {
       await fetchMessage();
     }).subscribe();
 }
+
+export const deleteMessage = async (id) => {
+  await supabase.from('messages').delete().eq('id', id);
+}
