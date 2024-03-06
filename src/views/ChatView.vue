@@ -8,10 +8,14 @@ import { insertMessage, fetchMessage, subscribeToMessages, messageList, deleteMe
 
 const message = ref('');
 const messageInput = ref(null);
+const messagesContainer = ref(null);
 
 subscribeToMessages();
 deleteMessage();
-onMounted(async () =>  await fetchMessage());
+onMounted(async () =>  {
+  await fetchMessage()
+  scrollToBottom();
+});
 
 const { user } = storeToRefs(useUserStore());
 
@@ -24,12 +28,16 @@ const addMessage = async () => {
   messageInput.value.focus()
 };
 
+const scrollToBottom = () => {
+  messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
+};
+
 </script>
 
 <template>
   <div class='flex flex-col w-full justify-center overflow-hidden'>
     <NavbarComponents/>
-    <div class='overflow-auto grow'>
+    <div class='overflow-auto grow' ref="messagesContainer">
       <div v-for="(message, index) in messageList" :key="index" class="border rounded-md p-2 m-2 bg-gray-800 flex flex-col-reverse">
         <MessageComponents @delete="deleteMessage" :message="message" />
       </div>

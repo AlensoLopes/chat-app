@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { supabase } from '@/supabase';
 import { useRouter } from 'vue-router';
+import AppButton from '@/components/AppButton.vue';
 
 const email = ref('');
 const password = ref('');
@@ -39,7 +40,6 @@ const onSubmit = async () => {
       <input type="password" id="password" v-model="password"
       class="p-2 bg-slate-500 rounded-md focus:bg-slate-600 transition-all" />
     </div>
-    <button type="submit" class="p-2 mt-4 bg-blue-500 rounded-md
-    hover:opacity-50 transition-all">Se Connecter</button>
+    <AppButton>Se connecter</AppButton>
   </form>
 </template>
