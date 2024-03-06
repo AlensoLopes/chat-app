@@ -10,7 +10,7 @@ const props = defineProps({
   }
 });
 const { user } = storeToRefs(useUserStore());
-let isMessageSentByUser = props.message.author.id === user.value.id && user;
+const isMessageSentByUser = computed(() => user && props.message.author.id === user.value.id);
 
 console.log(props.message);
 const emit = defineEmits(["delete"])
