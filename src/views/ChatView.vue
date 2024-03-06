@@ -4,13 +4,14 @@ import NavbarComponents from '@/components/NavbarComponents.vue';
 import { ref, onMounted } from "vue";
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
-import { insertMessage, fetchMessage } from '@/api/messages';
+import { insertMessage, fetchMessage, subscribeToMessages, messageList } from '@/api/messages';
 
 const message = ref('');
-const messageList = ref([]);
 const messageInput = ref(null);
 
-onMounted(async () => messageList.value = await fetchMessage());
+subscribeToMessages();
+
+onMounted(async () =>  await fetchMessage());
 
 const { user } = storeToRefs(useUserStore());
 
