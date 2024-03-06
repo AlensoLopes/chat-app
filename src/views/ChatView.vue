@@ -29,8 +29,9 @@ const deleteMessage = (id) => messageList.value = messageList.value.filter(messa
 </script>
 
 <template>
-  <NavbarComponents/>
-  <div class='flex flex-col w-full justify-center'>
+  <div class='flex flex-col w-full justify-center overflow-hidden'>
+    <NavbarComponents/>
+  <div class='overflow-auto grow'>
     <div v-for="(message, index) in messageList" :key="index" class="border rounded-md p-2 m-2 bg-gray-800 flex flex-col-reverse">
       <MessageComponents @delete="deleteMessage" :message="message" />
     </div>
@@ -40,5 +41,6 @@ const deleteMessage = (id) => messageList.value = messageList.value.filter(messa
       v-model="message" name='message' id='message' rows='1' class="text-black rounded-md"></textarea>
       <button @delete="deleteMessage" @click="addMessage" class="ml-2 p-4 rounded-md bg-blue-600">Send</button>
     </div>
+  </div>
   </div>
 </template>
